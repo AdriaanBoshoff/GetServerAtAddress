@@ -1,0 +1,112 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'Get Servers at Address (Made by Quantum)'
+  ClientHeight = 368
+  ClientWidth = 446
+  StyleBook = DataModule1.stylebookOxfordBlue
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object pnlHead: TPanel
+    Align = Top
+    Size.Width = 446.000000000000000000
+    Size.Height = 41.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object lbl1: TLabel
+      Align = Left
+      StyledSettings = [Family, Style, FontColor]
+      Margins.Left = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Size.Width = 71.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 13.000000000000000000
+      Text = 'IP Address:'
+      TabOrder = 0
+    end
+    object edtIP: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Text = '129.232.180.108'
+      TextSettings.Font.Size = 15.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Size.Width = 256.000000000000000000
+      Size.Height = 31.000000000000000000
+      Size.PlatformDefault = False
+      TextPrompt = '129.232.180.108'
+      StyledSettings = [Family, Style, FontColor]
+      object btnClearIP: TClearEditButton
+        CanFocus = False
+        Cursor = crArrow
+        Size.Width = 28.000000000000000000
+        Size.Height = 27.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+    end
+    object btnGetServers: TButton
+      Align = Right
+      StyledSettings = [Family, Style, FontColor]
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 347.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 89.000000000000000000
+      Size.Height = 31.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Get Servers'
+      TextSettings.Font.Size = 13.000000000000000000
+      OnClick = btnGetServersClick
+    end
+  end
+  object lstServers: TListBox
+    Align = Client
+    Size.Width = 446.000000000000000000
+    Size.Height = 305.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    DisableFocusEffect = True
+    ItemHeight = 49.000000000000000000
+    DefaultItemStyles.ItemStyle = 'listboxitembottomdetail'
+    DefaultItemStyles.GroupHeaderStyle = ''
+    DefaultItemStyles.GroupFooterStyle = ''
+    Viewport.Width = 442.000000000000000000
+    Viewport.Height = 301.000000000000000000
+  end
+  object statBottom: TStatusBar
+    Position.Y = 346.000000000000000000
+    ShowSizeGrip = False
+    Size.Width = 446.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object lblTotalServers: TLabel
+      Align = Left
+      Margins.Left = 5.000000000000000000
+      Position.X = 5.000000000000000000
+      Size.Width = 124.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Total Servers: 0'
+      TabOrder = 0
+    end
+    object lblVersion: TLabel
+      Align = Right
+      Position.X = 376.000000000000000000
+      Size.Width = 70.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Version 1.0'
+      TabOrder = 2
+    end
+  end
+end
