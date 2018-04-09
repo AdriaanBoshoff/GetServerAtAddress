@@ -32,7 +32,6 @@ object frmMain: TfrmMain
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Align = Client
       TabOrder = 1
-      Text = '129.232.180.108'
       TextSettings.Font.Size = 15.000000000000000000
       Margins.Top = 5.000000000000000000
       Margins.Right = 10.000000000000000000
@@ -40,7 +39,7 @@ object frmMain: TfrmMain
       Size.Width = 256.000000000000000000
       Size.Height = 31.000000000000000000
       Size.PlatformDefault = False
-      TextPrompt = '129.232.180.108'
+      TextPrompt = 'IP or IP:Port'
       StyledSettings = [Family, Style, FontColor]
       object btnClearIP: TClearEditButton
         CanFocus = False
@@ -101,10 +100,12 @@ object frmMain: TfrmMain
     end
     object lblVersion: TLabel
       Align = Right
-      Position.X = 376.000000000000000000
-      Size.Width = 70.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Position.X = 339.000000000000000000
+      Size.Width = 102.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
+      TextSettings.HorzAlign = Trailing
       Text = 'Version 1.0'
       TabOrder = 2
     end

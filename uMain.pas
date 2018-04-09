@@ -8,7 +8,7 @@ uses
   FMX.StdCtrls, uDataModule, FMX.Edit, FMX.ListView.Types, FMX.ListView.Appearances,
   FMX.ListView.Adapters.Base, FMX.ListView, FMX.ListBox, FMX.Layouts,
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, djson, FMX.ScrollBox,
-  FMX.Memo;
+  FMX.Memo, IniFiles, System.IOUtils;
 
 type
   TfrmMain = class(TForm)
@@ -24,8 +24,11 @@ type
     procedure GetServers(IP: string);
     procedure btnGetServersClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure SaveSettingString(Section, Name, Value, SettingsFile: string);
+    function LoadSettingString(Section, Name, Value, SettingsFile: string): string;
   private
     { Private declarations }
+    Android_Settings_File: string;
   public
     { Public declarations }
   end;
@@ -34,7 +37,8 @@ var
   frmMain: TfrmMain;
 
 const
-  API_URL = 'http://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=';
+  API_URL = 'http://api.steampowered.com/ISteamApps/GetServersAtAddress/v1?addr=';
+  Other_Settings_File = '.\config.ini';
 
 implementation
 
@@ -42,12 +46,32 @@ implementation
 
 procedure TfrmMain.btnGetServersClick(Sender: TObject);
 begin
+  {$IFDEF Android}
+  SaveSettingString('IP', 'ip', edtIP.Text, Android_Settings_File);
+  {$ENDIF}
+  {$IFDEF MSWindows}
+  SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
+  {$ENDIF}
+  {$IFDEF Linux}
+  SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
+  {$ENDIF}
+
   GetServers(edtIP.Text);
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   Application.Title := 'GSAA';
+  Android_Settings_File := System.IOUtils.TPath.GetDocumentsPath + System.SysUtils.PathDelim + 'getserversettings.ini';
+  {$IFDEF Android}
+  edtIP.Text := LoadSettingString('IP', 'ip', edtIP.Text, Android_Settings_File);
+  {$ENDIF}
+  {$IFDEF MSWindows}
+  edtIP.Text := LoadSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
+  {$ENDIF}
+  {$IFDEF Linux}
+  edtIP.Text := LoadSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
+  {$ENDIF}
 end;
 
 procedure TfrmMain.GetServers(IP: string);
@@ -64,6 +88,7 @@ begin
   httpclient := TIdHTTP.Create(Self);
   try
     data := httpclient.Get(API_URL + IP);
+    httpclient.Free;
   except
     on E: Exception do
     begin
@@ -88,16 +113,26 @@ begin
     begin
       // Set the region
       case server['region'].AsInteger of
-        -1 : sregion := 'UNKNOWN';
-        0 : sregion := 'US - East';
-        1 : sregion := 'US - West';
-        2 : sregion := 'South America';
-        3 : sregion := 'Europe';
-        4 : sregion := 'Asia';
-        5 : sregion := 'Australia';
-        6 : sregion := 'Middle East';
-        7 : sregion := 'Africa';
-        255 : sregion := 'UNKNOWN';
+        -1:
+          sregion := 'UNKNOWN';
+        0:
+          sregion := 'US - East';
+        1:
+          sregion := 'US - West';
+        2:
+          sregion := 'South America';
+        3:
+          sregion := 'Europe';
+        4:
+          sregion := 'Asia';
+        5:
+          sregion := 'Australia';
+        6:
+          sregion := 'Middle East';
+        7:
+          sregion := 'Africa';
+        255:
+          sregion := 'UNKNOWN';
       end;
 
       // Add the Items
@@ -113,6 +148,31 @@ begin
   finally
     lblTotalServers.Text := 'Total Servers: ' + IntToStr(lstServers.Count);
     serverinfo.Free;
+  end;
+end;
+
+function TfrmMain.LoadSettingString(Section, Name, Value,
+  SettingsFile: string): string;
+var
+  ini: TIniFile;
+begin
+  ini := TIniFile.Create(SettingsFile);
+  try
+    Result := ini.ReadString(Section, Name, Value);
+  finally
+    ini.Free;
+  end;
+end;
+
+procedure TfrmMain.SaveSettingString(Section, Name, Value, SettingsFile: string);
+var
+  ini: TIniFile;
+begin
+  ini := TIniFile.Create(SettingsFile);
+  try
+    ini.WriteString(Section, Name, Value);
+  finally
+    ini.Free;
   end;
 end;
 

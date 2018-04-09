@@ -2,15 +2,15 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2018/04/08 23:03:52.000.178,=C:\Users\adria\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2018/04/08 23:04:12.000.951,C:\Users\adria\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uMain.pas</Transaction>
-    <Transaction>2018/04/08 23:04:12.000.951,C:\Users\adria\Documents\Embarcadero\Studio\Projects\Unit1.fmx=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uMain.fmx</Transaction>
-    <Transaction>2018/04/08 23:04:18.000.899,C:\Users\adria\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\GetServers.dproj</Transaction>
+    <Transaction>2018/04/08 23:04:12.000.951,C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uMain.fmx=C:\Users\adria\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2018/04/08 23:04:12.000.951,C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uMain.pas=C:\Users\adria\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/04/08 23:04:18.000.899,C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\GetServers.dproj=C:\Users\adria\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>2018/04/08 23:06:44.000.771,=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\Unit1.pas</Transaction>
-    <Transaction>2018/04/08 23:06:53.000.560,C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\Unit1.dfm=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uDataModule.dfm</Transaction>
-    <Transaction>2018/04/08 23:06:53.000.560,C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\Unit1.pas=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uDataModule.pas</Transaction>
+    <Transaction>2018/04/08 23:06:53.000.560,C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uDataModule.pas=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\Unit1.pas</Transaction>
+    <Transaction>2018/04/08 23:06:53.000.560,C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\uDataModule.dfm=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\Unit1.dfm</Transaction>
     <Transaction>2018/04/08 23:11:57.000.693,=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\extra\djson.pas</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
-		<NoProfile iOSSimulator="iPhone5"/>
+		<NoProfile iOSSimulator="iPhone5" Android="4d00223657609015"/>
 	</ActiveMobileDevice>
 </BorlandProject>
