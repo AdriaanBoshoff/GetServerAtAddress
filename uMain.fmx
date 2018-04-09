@@ -42,6 +42,7 @@ object frmMain: TfrmMain
       Size.PlatformDefault = False
       TextPrompt = 'IP or IP:Port'
       StyledSettings = [Family, Style, FontColor]
+      OnKeyDown = edtIPKeyDown
       object btnClearIP: TClearEditButton
         CanFocus = False
         Cursor = crArrow
@@ -107,7 +108,7 @@ object frmMain: TfrmMain
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
-      Text = 'Version 1.0'
+      Text = 'Version 1.1'
       TabOrder = 2
     end
   end

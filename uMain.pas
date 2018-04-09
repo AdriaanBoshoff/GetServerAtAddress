@@ -26,6 +26,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure SaveSettingString(Section, Name, Value, SettingsFile: string);
     function LoadSettingString(Section, Name, Value, SettingsFile: string): string;
+    procedure edtIPKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
   private
     { Private declarations }
     Android_Settings_File: string;
@@ -52,11 +53,23 @@ begin
   {$IFDEF MSWindows}
   SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
   {$ENDIF}
-  {$IFDEF Linux}
-  SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
-  {$ENDIF}
 
   GetServers(edtIP.Text);
+end;
+
+procedure TfrmMain.edtIPKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
+begin
+  if Key = vkReturn then
+  begin
+    {$IFDEF Android}
+    SaveSettingString('IP', 'ip', edtIP.Text, Android_Settings_File);
+    {$ENDIF}
+    {$IFDEF MSWindows}
+    SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
+    {$ENDIF}
+
+    GetServers(edtIP.Text);
+  end;
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -67,9 +80,6 @@ begin
   edtIP.Text := LoadSettingString('IP', 'ip', edtIP.Text, Android_Settings_File);
   {$ENDIF}
   {$IFDEF MSWindows}
-  edtIP.Text := LoadSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
-  {$ENDIF}
-  {$IFDEF Linux}
   edtIP.Text := LoadSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
   {$ENDIF}
 end;
@@ -151,8 +161,7 @@ begin
   end;
 end;
 
-function TfrmMain.LoadSettingString(Section, Name, Value,
-  SettingsFile: string): string;
+function TfrmMain.LoadSettingString(Section, Name, Value, SettingsFile: string): string;
 var
   ini: TIniFile;
 begin
