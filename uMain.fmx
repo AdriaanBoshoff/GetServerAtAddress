@@ -32,6 +32,7 @@ object frmMain: TfrmMain
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Align = Client
       TabOrder = 1
+      KeyboardType = NumberPad
       TextSettings.Font.Size = 15.000000000000000000
       Margins.Top = 5.000000000000000000
       Margins.Right = 10.000000000000000000
