@@ -108,7 +108,7 @@ object frmMain: TfrmMain
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
       TextSettings.HorzAlign = Trailing
-      Text = 'Version 1.1'
+      Text = 'Version 1.2'
       TabOrder = 2
     end
   end

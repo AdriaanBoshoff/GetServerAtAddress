@@ -21,7 +21,6 @@ type
     statBottom: TStatusBar;
     lblTotalServers: TLabel;
     lblVersion: TLabel;
-    procedure GetServers(IP: string);
     procedure btnGetServersClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SaveSettingString(Section, Name, Value, SettingsFile: string);
@@ -32,6 +31,11 @@ type
     Android_Settings_File: string;
   public
     { Public declarations }
+  end;
+
+  TGetServers = class(TThread)
+    protected
+      procedure Execute; override;
   end;
 
 var
@@ -54,7 +58,8 @@ begin
   SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
   {$ENDIF}
 
-  GetServers(edtIP.Text);
+  with TGetServers.Create do
+    FreeOnTerminate := True;
 end;
 
 procedure TfrmMain.edtIPKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
@@ -68,7 +73,8 @@ begin
     SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
     {$ENDIF}
 
-    GetServers(edtIP.Text);
+    with TGetServers.Create do
+      FreeOnTerminate := True;
   end;
 end;
 
@@ -84,7 +90,33 @@ begin
   {$ENDIF}
 end;
 
-procedure TfrmMain.GetServers(IP: string);
+function TfrmMain.LoadSettingString(Section, Name, Value, SettingsFile: string): string;
+var
+  ini: TIniFile;
+begin
+  ini := TIniFile.Create(SettingsFile);
+  try
+    Result := ini.ReadString(Section, Name, Value);
+  finally
+    ini.Free;
+  end;
+end;
+
+procedure TfrmMain.SaveSettingString(Section, Name, Value, SettingsFile: string);
+var
+  ini: TIniFile;
+begin
+  ini := TIniFile.Create(SettingsFile);
+  try
+    ini.WriteString(Section, Name, Value);
+  finally
+    ini.Free;
+  end;
+end;
+
+{ TGetServers }
+
+procedure TGetServers.Execute;
 var
   ListBoxItem: TListBoxItem;
   httpclient: TIdHTTP;
@@ -92,12 +124,12 @@ var
   serverinfo, server: TJSON;
 begin
   // Clear Server List
-  lstServers.Clear;
+  frmMain.lstServers.Clear;
 
   // Retrieve the json data via api
-  httpclient := TIdHTTP.Create(Self);
+  httpclient := TIdHTTP.Create(nil);
   try
-    data := httpclient.Get(API_URL + IP);
+    data := httpclient.Get(API_URL + frmMain.edtIP.Text);
     httpclient.Free;
   except
     on E: Exception do
@@ -146,42 +178,21 @@ begin
       end;
 
       // Add the Items
-      ListBoxItem := TListBoxItem.Create(lstServers);
+      ListBoxItem := TListBoxItem.Create(frmMain.lstServers);
+
       // Image will be loaded if it exists
       if FileExists('.\images\' + server['gamedir'].AsString + '.png') then
         ListBoxItem.ItemData.Bitmap.LoadFromFile('.\images\' + server['gamedir'].AsString + '.png');
 
       ListBoxItem.ItemData.Text := UpperCase(server['gamedir'].AsString) + ' on ' + server['addr'].AsString;
       ListBoxItem.ItemData.Detail := 'Region: ' + sregion + '   Secure: ' + server['secure'].AsString + '   AppID: ' + server['appid'].AsString;
-      lstServers.AddObject(ListBoxItem);
+      frmMain.lstServers.AddObject(ListBoxItem);
+      Sleep(50);
+      frmMain.lblTotalServers.Text := 'Total Servers: ' + IntToStr(frmMain.lstServers.Count);
+      Sleep(50);
     end;
   finally
-    lblTotalServers.Text := 'Total Servers: ' + IntToStr(lstServers.Count);
     serverinfo.Free;
-  end;
-end;
-
-function TfrmMain.LoadSettingString(Section, Name, Value, SettingsFile: string): string;
-var
-  ini: TIniFile;
-begin
-  ini := TIniFile.Create(SettingsFile);
-  try
-    Result := ini.ReadString(Section, Name, Value);
-  finally
-    ini.Free;
-  end;
-end;
-
-procedure TfrmMain.SaveSettingString(Section, Name, Value, SettingsFile: string);
-var
-  ini: TIniFile;
-begin
-  ini := TIniFile.Create(SettingsFile);
-  try
-    ini.WriteString(Section, Name, Value);
-  finally
-    ini.Free;
   end;
 end;
 
