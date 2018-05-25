@@ -11,6 +11,6 @@
     <Transaction>2018/04/08 23:11:57.000.693,=C:\Users\adria\Documents\Embarcadero\Studio\Projects\GetServersAtAddress\extra\djson.pas</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
-		<NoProfile iOSSimulator="iPhone5" Android="4d00223657609015"/>
+		<NoProfile iOSSimulator="iPhone5" Android=""/>
 	</ActiveMobileDevice>
 </BorlandProject>

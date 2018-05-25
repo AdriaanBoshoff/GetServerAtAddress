@@ -33,7 +33,27 @@
             <Required>True</Required>
         </DeployFile>
     </ItemGroup>
-    <ItemGroup Condition="'$(Platform)'=='Linux64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Linux64'">
+        <DeployFile Include="Linux64\Release\GetServers" Condition="'$(Config)'=='Release'">
+            <RemoteDir>GetServers\</RemoteDir>
+            <RemoteName>GetServers</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+        <DeployFile Include="$(fmxlinux)\Redist\libfmux.so">
+            <RemoteDir>GetServers\</RemoteDir>
+            <RemoteName>libfmux.so</RemoteName>
+            <DeployClass/>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+    </ItemGroup>
     <ItemGroup Condition="'$(Platform)'=='OSX32'">
         <DeployFile Include="$(BDS)\Redist\osx32\libcgsqlite3.dylib">
             <RemoteDir>GetServers.app\Contents\MacOS\</RemoteDir>

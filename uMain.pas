@@ -34,8 +34,8 @@ type
   end;
 
   TGetServers = class(TThread)
-    protected
-      procedure Execute; override;
+  protected
+    procedure Execute; override;
   end;
 
 var
@@ -57,6 +57,9 @@ begin
   {$IFDEF MSWindows}
   SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
   {$ENDIF}
+  {$IFDEF LINUX}
+    SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
+  {$ENDIF}
 
   with TGetServers.Create do
     FreeOnTerminate := True;
@@ -70,6 +73,9 @@ begin
     SaveSettingString('IP', 'ip', edtIP.Text, Android_Settings_File);
     {$ENDIF}
     {$IFDEF MSWindows}
+    SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
+    {$ENDIF}
+    {$IFDEF LINUX}
     SaveSettingString('IP', 'ip', edtIP.Text, Other_Settings_File);
     {$ENDIF}
 
@@ -124,7 +130,12 @@ var
   serverinfo, server: TJSON;
 begin
   // Clear Server List
-  frmMain.lstServers.Clear;
+  Synchronize(
+    procedure
+    begin
+      frmMain.btnGetServers.Enabled := False;
+      frmMain.lstServers.Clear;
+    end);
 
   // Retrieve the json data via api
   httpclient := TIdHTTP.Create(nil);
@@ -177,22 +188,31 @@ begin
           sregion := 'UNKNOWN';
       end;
 
-      // Add the Items
-      ListBoxItem := TListBoxItem.Create(frmMain.lstServers);
+      Synchronize(
+        procedure
+        begin
+          // Add the Items
+          ListBoxItem := TListBoxItem.Create(frmMain.lstServers);
 
-      // Image will be loaded if it exists
-      if FileExists('.\images\' + server['gamedir'].AsString + '.png') then
-        ListBoxItem.ItemData.Bitmap.LoadFromFile('.\images\' + server['gamedir'].AsString + '.png');
+          // Image will be loaded if it exists
+          if FileExists('.\images\' + server['gamedir'].AsString + '.png') then
+            ListBoxItem.ItemData.Bitmap.LoadFromFile('.\images\' + server['gamedir'].AsString + '.png');
 
-      ListBoxItem.ItemData.Text := UpperCase(server['gamedir'].AsString) + ' on ' + server['addr'].AsString;
-      ListBoxItem.ItemData.Detail := 'Region: ' + sregion + '   Secure: ' + server['secure'].AsString + '   AppID: ' + server['appid'].AsString;
-      frmMain.lstServers.AddObject(ListBoxItem);
-      Sleep(50);
-      frmMain.lblTotalServers.Text := 'Total Servers: ' + IntToStr(frmMain.lstServers.Count);
-      Sleep(50);
+          ListBoxItem.ItemData.Text := UpperCase(server['gamedir'].AsString) + ' on ' + server['addr'].AsString;
+          ListBoxItem.ItemData.Detail := 'Region: ' + sregion + '   Secure: ' + server['secure'].AsString + '   AppID: ' + server['appid'].AsString;
+          frmMain.lstServers.AddObject(ListBoxItem);
+          frmMain.lblTotalServers.Text := 'Loading Servers: ' + IntToStr(frmMain.lstServers.Count);
+        end);
     end;
   finally
     serverinfo.Free;
+
+    Synchronize(
+      procedure
+      begin
+        frmMain.lblTotalServers.Text := 'Total Servers: ' + IntToStr(frmMain.lstServers.Count);
+        frmMain.btnGetServers.Enabled := True;
+      end);
   end;
 end;
 
